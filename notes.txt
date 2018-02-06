@@ -1,0 +1,41 @@
+>1App:
+-state: list of songs
+
+>2SearchBar:
+box
+button
+-state: search term
+- methods: handleSearch, change term
+-props: searchSpotify()
+
+>7Spotify fetch:
+
+
+>3SearchResults
+>56TrackList (new) -> Track (new)
+-methods: add to playlist
+state: added to playlist?
+
+
+>4Playlist
+>56TrackList (new) -> Track (new)
+-state: playlist, list name
+-methods: remove from playlists, save playlist to spotify, change list name
+
+----------------------
+SPOTIFY endpoints and keys:
+Client ID: f47a6c90ecd44472b626f2d8a6b068e2
+Client Secret: 3915e938903b4fe792f2e68338e18251
+redirect URL: http%3A%2F%2Flocalhost%3A8888%2Fcallback
+
+https://api.spotify.com
+
+authorize: GET https://accounts.spotify.com/authorize?client_id=<id>&response_type=code&redirect_uri=<uri>
+	  POST https://accounts.spotify.com/api/token
+
+search library: GET /v1/search?q=<term using + as spaces>&type=track
+	header:   Authorization: Bearer {access_token}
+
+save playlist: POST /v1/users/{user_id}/playlists
+	header:   Authorization: Bearer {access_token}, Content-Type: application/json
+	data:     name: <playlistname>, 
