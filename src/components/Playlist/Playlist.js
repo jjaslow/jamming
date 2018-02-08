@@ -3,17 +3,14 @@ import './Playlist.css';
 import TrackList from '../TrackList/TrackList'; //???
 
 class Playlist extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {list: {}, listName: ''};
-  }
+
 
 
   render() {
     return (
       <div className="Playlist">
         <input defaultValue={'New Playlist'}/>
-        <TrackList />
+        <TrackList tracks={this.props.playlistTracks} onRemove={this.props.onRemove} />
         <a className="Playlist-save">SAVE TO SPOTIFY</a>
       </div>
     );
