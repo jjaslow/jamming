@@ -27,26 +27,31 @@ class App extends Component {
   }
 */
 
-  addTrack(track){
-       let searchResultsIds = this.state.searchResults.map(x => x.id);
-       let searchResultsPosition = searchResultsIds.indexOf(track.id);
-
-       let playlistTracksIds = this.state.playlistTracks.map(x => x.id);
-       let playlistTracksPosition = playlistTracksIds.indexOf(track.id);
-
-       if (playlistTracksPosition<0)
-       {
-        this.setState(
-          {
-            playlistTracks: this.state.playlistTracks.push(this.state.searchResults[searchResultsPosition]),
-            searchResults: this.state.searchResults.splice(searchResultsPosition, 1)
-          });
-        console.log(this.state.searchResults);
-        console.log(this.state.playlistTracks);
-      }
 
 
-  }
+addTrack(track){
+     let searchResultsIds = this.state.searchResults.map(x => x.id);  //get track IDs of songs in Search Results for removing from results when added to playlist
+     let searchResultsPosition = searchResultsIds.indexOf(track.id);  //where in search Results array is selected track?
+
+     let tracks = this.state.playlistTracks;
+     if (tracks.find(x => x.id === track.id))  //is track already in playlist?
+     {
+       return;
+     }
+      tracks.push(this.state.searchResults[searchResultsPosition])  //mutate track to end of playlist
+      let searchNew = this.state.searchResults;                     //copy search results
+      searchNew.splice(searchResultsPosition, 1);                   //remove track from search results
+      this.setState(
+        {
+          playlistTracks: tracks,
+          searchResults: searchNew
+        });
+      //console.log(this.state.searchResults);
+      //console.log(this.state.playlistTracks);
+    }
+
+
+
 
   removeTrack(track){
 
