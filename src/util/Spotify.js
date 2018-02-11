@@ -1,5 +1,5 @@
 const clientID = 'f47a6c90ecd44472b626f2d8a6b068e2';
-const redirectURI = 'http://localhost:3000';
+const redirectURI = 'http://jaslow.com/jamming';
 const scope = '&scope=playlist-read-private%20playlist-modify-private%20playlist-modify-public';
 let spotifyToken = '';
 const baseURI = 'https://api.spotify.com';
