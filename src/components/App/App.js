@@ -9,42 +9,71 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state={
-      searchResults: [{id: 12345, artist: "Billy Joel", album: "Album1", name: "Song1"},
-                     {id: 23456, artist: "Billy Joel", album: "Album2", name: "Song2"}],
-      playlistTracks: [{id: 912345, artist: "Lea Michele", album: "Cannonball", name: "Song8"},
-                     {id: 923456, artist: "Lea Michele", album: "Cannonball", name: "Song9"}],
-      playlistName : "Jason's Playlist #"
+      searchResults: [],
+      playlistTracks: [],
+      playlistName: "Playlist Name"
                    };
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
+    this.updatePlaylistName = this.updatePlaylistName.bind(this);
+    this.savePlaylist = this.savePlaylist.bind(this);
+    this.searchSpotify = this.searchSpotify.bind(this);
     //this.searchSpotify = this.searchSpotify.bind(this);
   }
 
-/*
-  searchSpotify(query){
-    Spotify.search(query).then(response => this.setState({searchResults: response}));
+  savePlaylist(){
+    if(this.state.playlistTracks.length > 0)
+      {
+        const trackURIs = this.state.playlistTracks.map(track => 'spotify:track:' + track.id);
+        Spotify.savePlaylist(this.state.playlistName, trackURIs);
+        this.setState(
+          {
+            playlistName: 'Playlist Name',
+            playlistTracks: []
+          }
+        );
+        /*
+        let spotifyToken = Spotify.getAccessToken();
+        let user_id = '';
+
+        fetch(`https://api.spotify.com/v1/me`, {headers: {Authorization: `Bearer  ${spotifyToken}, Content-Type: application/json`} }).then(response => response.json()).then(response =>
+          {user_id = response.id;
+          return fetch(`https://api.spotify.com/v1/users/${user_id}/playlists`, {method: 'POST', headers: {Authorization: `Bearer  ${spotifyToken}, Content-Type: application/json`}, body: JSON.stringify({'name': 'jason'})   })
+          })
+          .then(response => response.json()).then(response=>console.log(response.id));
+
+        */
+      }
 
   }
-*/
+
+
+  searchSpotify(query){
+    Spotify.search(query).then(response => this.setState({searchResults: response}));
+    ///////////////////////////////////////////////////////testing
+
+
+  }
+
 
 
 
 addTrack(track){
-     let searchResultsIds = this.state.searchResults.map(x => x.id);  //get track IDs of songs in Search Results for removing from results when added to playlist
-     let searchResultsPosition = searchResultsIds.indexOf(track.id);  //where in search Results array is selected track?
+     //let searchResultsIds = this.state.searchResults.map(x => x.id);  //get track IDs of songs in Search Results for removing from results when added to playlist
+     //let searchResultsPosition = this.state.searchResults.indexOf(track);  //where in search Results array is selected track?
 
      let tracks = this.state.playlistTracks;
      if (tracks.find(x => x.id === track.id))  //is track already in playlist?
      {
        return;
      }
-      tracks.push(this.state.searchResults[searchResultsPosition])  //mutate track to end of playlist
-      let searchNew = this.state.searchResults;                     //copy search results
-      searchNew.splice(searchResultsPosition, 1);                   //remove track from search results
+      tracks.push(track)                                             //mutate track to end of playlist
+      //let searchNew = this.state.searchResults;                     //copy search results
+      //searchNew.splice(searchResultsPosition, 1);                   //remove track from search results
       this.setState(
         {
           playlistTracks: tracks,
-          searchResults: searchNew
+          //searchResults: searchNew
         });
       //console.log(this.state.searchResults);
       //console.log(this.state.playlistTracks);
@@ -55,17 +84,36 @@ addTrack(track){
 
   removeTrack(track){
 
+     let tracks = this.state.playlistTracks;
+     let playlistPosition = tracks.indexOf(track);  //where in playlist array is selected track?
+
+
+     let playlistNew = tracks;                         //copy playlist
+     playlistNew.splice(playlistPosition, 1);                   //remove track from search results
+     this.setState(
+       {
+         playlistTracks: playlistNew
+       });
+
+
   }
+
+
+  updatePlaylistName(name){
+    this.setState({ playlistName: name });
+      }
+
+
 
   render() {
     return (
       <div>
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
         <div className="App">
-          <SearchBar />   {/*add prop   searchSpotify={this.searchSpotify}*/}
+          <SearchBar onSearch={this.searchSpotify} />
           <div className="App-playlist">
             <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack} />
-            <Playlist playlistTracks={this.state.playlistTracks} playlistName={this.state.playlistName} onRemove={this.removeTrack} />
+            <Playlist playlistTracks={this.state.playlistTracks} playlistName={this.state.playlistName} onRemove={this.removeTrack} onNameChange={this.updatePlaylistName} onSave={this.savePlaylist} />
           </div>
         </div>
       </div>
