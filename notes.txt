@@ -30,7 +30,7 @@ redirect URL: http%3A%2F%2Flocalhost%3A8888%2Fcallback
 
 https://api.spotify.com
 
-authorize: GET https://accounts.spotify.com/authorize?client_id=<id>&response_type=code&redirect_uri=<uri>
+authorize: GET https://accounts.spotify.com/authorize?client_id=<id>&response_type=token&redirect_uri=<redirecturi>
 	  POST https://accounts.spotify.com/api/token
 
 search library: GET /v1/search?q=<term using + as spaces>&type=track
@@ -39,3 +39,4 @@ search library: GET /v1/search?q=<term using + as spaces>&type=track
 save playlist: POST /v1/users/{user_id}/playlists
 	header:   Authorization: Bearer {access_token}, Content-Type: application/json
 	data:     name: <playlistname>, 
+
