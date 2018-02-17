@@ -4,6 +4,9 @@
   "private": true,
   "homepage": "http://mywebsite.com/jammming",
   "dependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^6.1.0",
+    "prettier": "^1.10.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.0"

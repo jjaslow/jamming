@@ -3,7 +3,7 @@ STATE: tracks and track location
 METHOD: searchSpotify(), pushSpotify()
 calls searchbar passing METHOD: searchSpotify()
 calls searchresults passing PROPs: track and location
-calls playlist passing PROPs: track and location and 
+calls playlist passing PROPs: track and location and
 
 SearchBar
 STATE: term
@@ -12,8 +12,7 @@ gets PROP: searchSpotify and results returned to App
 
 SearchResults
 gets PROPs: track and location
-passes PROPS: song details to 
+passes PROPS: song details to
 
 Playist
 PROPs: track and location & pushSpotify()
-
