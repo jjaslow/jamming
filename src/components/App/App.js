@@ -31,6 +31,11 @@ class App extends Component {
   }
 
   savePlaylist() {
+    if (!this.state.playlistName)
+    {
+      alert(`You need to have a playlist name`);
+      return;
+    }
     if (this.state.playlistTracks.length > 0) {
       const trackURIs = this.state.playlistTracks.map(
         track => "spotify:track:" + track.id
